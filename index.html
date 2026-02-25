@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UniTapqyr AI</title>
+    <style>
+        /* Основные настройки и цвета */
+        :root {
+            --dark-blue: #0f1b2d;
+            --card-blue: #1b2c4a;
+            --nav-blue: #13223a;
+            --gold: #f2c14e;
+            --gold-glow: rgba(242, 193, 78, 0.4);
+            --text-white: #ffffff;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--dark-blue);
+            color: var(--text-white);
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(90deg, #1b2c4a, #13223a);
+            padding: 25px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .main-logo {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--gold);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            margin-top: 8px;
+            letter-spacing: 2px;
+            opacity: 0.8;
+        }
+
+        /* Табы (Tabs) */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            background: var(--nav-blue);
+            border-bottom: 2px solid var(--gold);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .tab-button {
+            padding: 15px 35px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 16px;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .tab-button:hover {
+            background: rgba(242, 193, 78, 0.1);
+        }
+
+        .tab-button.active {
+            color: var(--gold);
+            border-bottom: 3px solid var(--gold);
+            background: rgba(242, 193, 78, 0.05);
+        }
+
+        /* Контент табов */
+        .tab-content {
+            display: none;
+            padding: 40px 10%;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        h2 {
+            color: var(--gold);
+            border-left: 5px solid var(--gold);
+            padding-left: 15px;
+            margin-bottom: 25px;
+        }
+
+        /* Сетка и карточки */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--card-blue);
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid rgba(242, 193, 78, 0.2);
+            transition: 0.3s;
+            margin-bottom: 15px;
+        }
+
+        .card:hover { transform: translateY(-5px); border-color: var(--gold); }
+
+        /* --- HOME HERO STYLE --- */
+        .home-hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 70vh;
+            gap: 40px;
+        }
+
+        .hero-content { flex: 1; max-width: 600px; }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 15px;
+            background: rgba(242, 193, 78, 0.1);
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .main-title { font-size: 4.5rem; margin: 0 0 20px 0; line-height: 1; }
+        .ai-text { color: var(--gold); text-shadow: 0 0 20px var(--gold-glow); }
+
+        .hero-description {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 35px;
+        }
+
+        .btn-primary {
+            background: var(--gold);
+            color: var(--dark-blue);
+            padding: 15px 35px;
+            border-radius: 10px;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-block;
+            transition: 0.3s;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary:hover { transform: scale(1.05); box-shadow: 0 10px 20px var(--gold-glow); }
+
+        /* Статистика */
+        .hero-stats { display: flex; gap: 40px; margin-top: 50px; align-items: center; }
+        .stat-box { text-align: center; }
+        .stat-number { font-size: 2.5rem; font-weight: 800; color: var(--gold); display: block; }
+        .stat-label { font-size: 0.8rem; opacity: 0.6; }
+        .stat-divider { width: 1px; height: 40px; background: rgba(255,255,255,0.2); }
+
+        /* Анимации и иконки */
+        .hero-visual { flex: 1; position: relative; height: 400px; display: flex; justify-content: center; align-items: center; }
+        .glow-circle { width: 300px; height: 300px; background: var(--gold); filter: blur(120px); opacity: 0.15; border-radius: 50%; }
+        .icon {
+            position: absolute; font-size: 2.5rem; background: rgba(255,255,255,0.05);
+            padding: 15px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1);
+            animation: float 3s infinite ease-in-out;
+        }
+        .i-1 { top: 10%; right: 20%; animation-delay: 0s; }
+        .i-2 { top: 40%; left: 10%; animation-delay: 1s; }
+        .i-3 { bottom: 10%; right: 30%; animation-delay: 2s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        /* --- RESULTS SPECIFIC STYLE --- */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(242, 193, 78, 0.1);
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--gold);
+            box-shadow: 0 0 10px var(--gold-glow);
+            border-radius: 4px;
+        }
+
+        .stat-desc { font-size: 0.85rem; opacity: 0.7; line-height: 1.4; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="main-logo">UniTapqyr AI</div>
+    <div class="subtitle">AI-Powered University Admission Assistant for Graduates</div>
+</header>
+
+<div class="tabs">
+    <button class="tab-button active" onclick="openTab(event, 'home')">Home</button>
+    <button class="tab-button" onclick="openTab(event, 'about')">About</button>
+    <button class="tab-button" onclick="openTab(event, 'features')">Features</button>
+    <button class="tab-button" onclick="openTab(event, 'results')">Results</button>
+    <button class="tab-button" onclick="openTab(event, 'contact')">Contact</button>
+</div>
+
+<div id="home" class="tab-content active">
+    <section class="home-hero">
+        <div class="hero-content">
+            <div class="badge">AI-POWERED ADMISSION ASSISTANT 2026</div>
+            <h1 class="main-title">UniTapqyr <span class="ai-text">AI</span></h1>
+            <p class="hero-description">
+                Artificial intelligence that simplifies the university admission process. 
+                We help applicants make <strong>the right choice</strong>, <strong>save time</strong>, 
+                and <strong>increase their chances</strong> of obtaining a scholarship grant.
+            </p>
+            <div class="cta-group">
+                <button class="btn-primary" onclick="triggerTab('features')">Start the Analysis</button>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-box"><span class="stat-number">80%</span><span class="stat-label">Accuracy</span></div>
+                <div class="stat-divider"></div>
+                <div class="stat-box"><span class="stat-number">90%</span><span class="stat-label">Time Saved</span></div>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="glow-circle"></div>
+            <div class="icon i-1">🎓</div>
+            <div class="icon i-2">🤖</div>
+            <div class="icon i-3">📈</div>
+        </div>
+    </section>
+</div>
+
+<div id="about" class="tab-content">
+    <div class="container">
+        <h2>Introduction</h2>
+        <p>We are pleased to present our project, <strong>UniTapqyr AI</strong> — an intelligent ecosystem designed to transform the university admission process in Kazakhstan through advanced predictive analytics and AI-driven personalization.The project addresses the problem of informational gaps and high levels of stress among applicants caused by complex admission regulations and uncertainty in evaluating their chances of obtaining a state-funded grant.</p>
+        <br>
+        <h2>How did we come up with this idea?</h2>
+        <p>As recent graduates ourselves, we have firsthand experience with the immense pressure of the university admission process. We understand the 'human side' of this challenge: the paralyzing stress, the anxiety of high expectations, and the uncertainty caused by complex grant regulations.
+Many students struggle not because of a lack of talent, but due to a lack of clear information and the inability to objectively assess their competitiveness. UniTapqyr AI was born from this personal struggle. Our mission is to eliminate this psychological strain by providing students with a data-driven 'roadmap' to their future. We are not just building an app; we are creating a support system that gives every applicant the confidence in their future they deserve.</p>
+        <br>
+        <h2>Our Primary Objectives:</h2> 
+        <div class="grid">
+            <div class="card">
+                <h3>To simplify access to university admission information.</h3>
+                <p>This objective focuses on structuring complex admission requirements, deadlines, and criteria into a clear and understandable format for students.</p>
+            </div>
+            <div class="card">
+                <h3>To provide personalized admission recommendations.</h3>
+                <p>The system analyzes academic indicators (UNT scores, IELTS results, GPA, achievements) to suggest suitable universities based on individual competitiveness.</p>
+            </div>
+            <div class="card">
+                <h3>To reduce stress and uncertainty during the application process.</h3>
+                <p>By estimating admission probability and tracking important deadlines, the platform helps students make informed and confident decisions.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="features" class="tab-content">
+    <div class="container">
+        <h2>Core Functions of UniTapqyr AI</h2>
+        <div class="card"><strong>Academic Profile Analysis:</strong> Comprehensive analysis of ENT, IELTS, and GPA.</div>
+        <div class="card"> <strong>Personalized University Matching:</strong> Calculate your chances of getting a grant.</div>
+        <div class="card"> <strong>Admission Probability Estimation:</strong> Never miss a university application window.</div>
+        <div class="card"> <strong>Deadline Monitoring System:</strong> Never miss a university application window.</div>
+        <div class="card"> <strong>Intelligent Consultation Assistant:</strong> Never miss a university application window.</div>
+    </div>
+</div>
+
+<div id="results" class="tab-content">
+    <div class="container">
+        <h2 style="color: var(--gold); margin-bottom: 30px;">Survey Analysis & Data</h2>
+        <p>To improve our project and better understand the challenges most frequently faced by graduates, we conducted a survey among senior high school students (Grades 10–11).</p><br>
+        <p>Several of the responses were particularly striking.</p>
+        
+        <div class="results-grid">
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-label">Insufficient info about universities</span>
+                    <span class="stat-value">60.9%</span>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" style="width: 60.9%;"></div></div>
+                <p class="stat-desc">A majority feel information about Kazakhstan's universities is incomplete.</p>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-label">Ready to use AI-assistance</span>
+                    <span class="stat-value">73.9%</span>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" style="width: 73.9%;"></div></div>
+                <p class="stat-desc">Nearly 3/4 of students are interested in using an AI assistant.</p>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-label">Difficulty tracking deadlines</span>
+                    <span class="stat-value">56.5%</span>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" style="width: 56.5%;"></div></div>
+                <p class="stat-desc">More than half struggle with complex application timelines.</p>
+            </div>
+        </div><br><br>
+    <h2>How can we help students overcome these challenges?</h2>
+
+    <p>Since the primary goal of our project is to assist graduates, we carefully analyzed all survey results and incorporated several key functions into our AI assistant.<br>
+         These include realistically assessing a student’s abilities, recommending universities based on their academic performance, providing personalized consultation, and suggesting ways to improve their scores.</p>
+        
+    </div>
+</div>
+
+<div id="contact" class="tab-content">
+    <div class="container">
+        <h2>Get in Touch</h2>
+        <div class="card">
+            <p>Support Bot: <strong>@AQYLDYY_BOT</strong></p>
+            <p>Location: KIMEP University, Almaty</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openTab(evt, tabName) {
+        let contents = document.querySelectorAll(".tab-content");
+        let buttons = document.querySelectorAll(".tab-button");
+
+        contents.forEach(content => content.classList.remove("active"));
+        buttons.forEach(button => button.classList.remove("active"));
+
+        document.getElementById(tabName).classList.add("active");
+        
+        // Find the button and set it to active
+        if (evt) {
+            evt.currentTarget.classList.add("active");
+        } else {
+            // Fallback for triggerTab function
+            Array.from(buttons).find(btn => btn.innerText.toLowerCase() === tabName.toLowerCase()).classList.add("active");
+        }
+    }
+
+    function triggerTab(tabName) {
+        openTab(null, tabName);
+    }
+</script>
+
+</body>
+</html>
